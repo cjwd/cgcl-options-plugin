@@ -1,0 +1,21 @@
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+
+/* Print Style Sheet */
+@media print {
+	/* body { background:white; color:black; margin:0; } */
+	/* The Kadence Header */
+	#masthead {
+		display: none;
+	}
+	/* The Kadence Footer */
+	#colophon {
+		display: none;
+	}
+
+	#print-page {
+		display: none;
+	}
+}
