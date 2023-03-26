@@ -150,7 +150,7 @@ class Cgcl_Settings_Admin {
 			'manage_options', /* Role Capability */
 			'cgcl-options', /* Menu Slug */
 			array($this,'cgcl_options_page'), /* Callback Function */
-			'dashicon-admin-settings', /* Icon */
+			'dashicons-admin-settings', /* Icon */
 			'75 '/* Position */
 		);
 
@@ -163,15 +163,22 @@ class Cgcl_Settings_Admin {
 		// echo __( 'Select the pages to password protect', 'cgcl' );
 	}
 
+	function cgcl_quiz_section_callback() {
+		// echo __( 'Set Orientation Pass Score', 'cgcl' );
+	}
+
 	/**
 	 * Register settings sections and fields
 	 */
 	function settings_init(  ) { 
 
-		// register_setting('cgclOptions', 'cgcl_hsse_page' );
-		// register_setting('cgclOptions', 'cgcl_myaccount_page');
 		register_setting('cgclOptions', 'cg_hsse_protected_pages');
+		register_setting('cgclOptions', 'cg_hsse_login_page');
+		register_setting('cgclOptions', 'cg_hsse_pass_mark');
 
+		/**
+		 * Select Pages Section
+		 */
 		add_settings_section(
 			'cgcl_cgclOptions_section', 
 			__( 'HSSE Orientation Settings', 'cgcl' ), 
@@ -179,54 +186,84 @@ class Cgcl_Settings_Admin {
 			'cgclOptions'
 		);
 
+		/**
+		 * HSSE Orientation Quiz Section
+		 */
+		add_settings_section(
+			'cgcl_quizOptions_section', 
+			__( 'HSSE Assessment Settings', 'cgcl' ), 
+			array($this, 'cgcl_quiz_section_callback'), 
+			'cgclOptions'
+		);
+
+		/**
+		 * Select Pages Fields
+		 */
 		add_settings_field(
 			'cg_hsse_restrict_pages', // Field ID
-			__('Select pages to protect:', 'cgcl'), // Field title
+			__('Select pages to restrict access:', 'cgcl'), // Field title
 			array($this,'hsse_restrict_pages_callback'), // Callback function to render the field
 			'cgclOptions', // Page slug
 			'cgcl_cgclOptions_section' // Section ID
 		);
 
-		// HSSE Orientation Page
-		// add_settings_field( 
-		// 	'cgcl_select_field_pages', 
-		// 	__( 'HSSE Orientation Page', 'cgcl' ), 
-		// 	array($this,'cgcl_select_hsse_page_render'),
-		// 	'cgclOptions', 
-		// 	'cgcl_cgclOptions_section' 
-		// );
+		add_settings_field(
+			'cg_hsse_login_page', // Field ID
+			__('Select login page:', 'cgcl'), // Field title
+			array($this,'hsse_login_page_callback'), // Callback function to render the field
+			'cgclOptions', // Page slug
+			'cgcl_cgclOptions_section' // Section ID
+		);
 
-		// HSSE My Account Page
-		// add_settings_field( 
-		// 	'cgcl_select_myaccount_page', 
-		// 	__( 'HSSE My Account Page', 'cgcl' ), 
-		// 	array($this,'cgcl_select_myaccount_render'),
-		// 	'cgclOptions', 
-		// 	'cgcl_cgclOptions_section' 
-		// );
-
-		
+		add_settings_field(
+			'cg_hsse_pass_mark', // Field ID
+			__('Set orientation pass score:', 'cgcl'), // Field title
+			array($this,'hsse_quiz_score_callback'), // Callback function to render the field
+			'cgclOptions', // Page slug
+			'cgcl_quizOptions_section' // Section ID
+		);
 
 
 	}
 
 
-	// Callback function to render the field
+	// Callback function to render the restrict pages field
 	function hsse_restrict_pages_callback() {
 		$pages = get_pages();
 		$protected_pages = get_option('cg_hsse_protected_pages', array());
-		$page_ids = explode(',', $protected_pages);
 
-		// var_dump($protected_pages);
-		// var_dump($page_ids);
-		// die;
+		// cg_hsse_protected_pages[cg_hsse_restrict_pages][]
 
 		foreach ($pages as $page) {
 			echo '<label>';
-			echo '<input type="checkbox" name="hsse_protected_pages[]" value="' . $page->ID . '" ' . checked(in_array($page->ID, $page_ids), true, false) . '>';
+			echo '<input type="checkbox" name="cg_hsse_protected_pages[]" value="' . $page->ID . '" ' . checked(in_array($page->ID, $protected_pages), true, false) . '>';
 			echo ' ' . $page->post_title;
 			echo '</label><br>';
 		}
+	}
+
+	// Callback function to render the login page field
+	function hsse_login_page_callback(  ) { 
+		$pages = get_pages();
+		$option = get_option( 'cg_hsse_login_page' );
+
+		?>
+		<select name='cg_hsse_login_page'>
+			<option value="">Select Page</option>
+			<?php foreach($pages as $page) : ?>
+				<option value="<?= $page->ID; ?>" <?php selected( $option, $page->ID ); ?>><?= $page->post_title; ?></option>
+			<?php endforeach; ?>
+		</select>
+
+	<?php
+	}
+
+	function hsse_quiz_score_callback() {
+		$pass_mark = get_option('cg_hsse_pass_mark');
+		?>
+		<label for="pass_mark">Set Score</label>
+		<input type="number" id="pass_mark" name="cg_hsse_pass_mark" min="5" max="100" step="5" value="<?= !empty($pass_mark) ? $pass_mark : ''; ?>" >
+		<?php
 	}
 
 	/**
@@ -320,9 +357,6 @@ class Cgcl_Settings_Admin {
 					<td>
 						<img src="<?= $id_image; ?>" width="150" height="150" alt="">
 					</td>
-					<!-- <td>
-						<input type="file" name="hsse_user_id_image" id="hsse_user_id_image">
-					</td> -->
 				</tr>
 				<!-- PLEA ID -->
 				<tr>
@@ -337,9 +371,7 @@ class Cgcl_Settings_Admin {
 					<td>
 						<img src="<?= $plea_image; ?>" width="150" height="150" alt="">
 					</td>
-					<!-- <td>
-						<input type="file" name="hsse_user_plea_image" id="hsse_user_plea_image">
-					</td> -->
+
 				</tr>
 				<!-- Drug Test Date -->
 				<tr>
@@ -355,9 +387,7 @@ class Cgcl_Settings_Admin {
 					<td>
 						<img src="<?= $dtest_image; ?>" width="150" height="150" alt="">
 					</td>
-					<!-- <td>
-						<input type="file" name="hsse_user_drugtest_image" id="hsse_user_drugtest_image">
-					</td> -->
+
 				</tr>
 				<!-- Certificate of Character (COC) ID -->
 				<tr>
@@ -372,9 +402,7 @@ class Cgcl_Settings_Admin {
 					<td>
 						<img src="<?= $coc_image; ?>" width="150" height="150" alt="">
 					</td>
-					<!-- <td>
-						<input type="file" name="hsse_user_coc_image" id="hsse_user_coc_image">
-					</td> -->
+
 				</tr>
 			</table>
 		<?php

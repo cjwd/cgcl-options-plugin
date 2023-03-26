@@ -185,9 +185,7 @@ class Cgcl_Settings {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		//$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
-		// $this->loader->add_action('wp', $plugin_public, 'password_protect_page');
-		// $this->loader->add_action('wp', $plugin_public, 'password_protect_myaccount');
-		// $this->loader->add_action('wp', $plugin_public, 'password_protect_course');
+		$this->loader->add_action('template_redirect', $plugin_public, 'restrict_hsse_pages');
 
 		$this->loader->add_shortcode('cgcl_usermeta', $plugin_public, 'cgcl_usermeta_shortcode');
 

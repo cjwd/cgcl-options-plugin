@@ -131,55 +131,20 @@ class Cgcl_Settings_Public {
 	 * Retrict Access to HSSE Pages
 	 */
 	function restrict_hsse_pages() {
-		$protected_pages = get_option('hsse_protected_pages');
-		$login_page_id = get_option('hsse_login_page');
+		$protected_pages = get_option('cg_hsse_protected_pages');
+		$login_page_id = get_option('cg_hsse_login_page');
 
 		if(!empty($protected_pages)) {
 			 // If the user is not logged in and is accessing a protected page, redirect them to the login page
-			if ( ! is_user_logged_in() && ! empty( $login_page_id ) && in_array( get_queried_object_id(), explode( ',', $protected_pages ) ) ) {
+			if ( ! is_user_logged_in() && ! empty( $login_page_id ) && in_array( get_queried_object_id(), $protected_pages) ) {
 				wp_redirect( get_permalink( $login_page_id ) );
 				exit;
 			}
-			// $page_ids = explode(',', $protected_pages);
-
-			// foreach($page_ids as $page_id) {
-			// 	if(!is_user_logged_in() && is_page($page_id) ) {
-			// 		wp_redirect(get_permalink($login_page_id));
-			// 	}
-			// }
+			
 		}
 		
 	}
 
-	/**
-	 * Password Protect Page
-	 * @todo Add a setting for user to select the login page
-	 * action pre_get_posts
-	 */
-	function password_protect_page() {
-		$page = get_option('cgcl_hsse_page');
-
-		if(is_page($page) && !is_user_logged_in()) {
-			/* Redirect to the login page */
-			wp_redirect('/hsse-login/');
-			exit();
-		}
-		
-	}
-
-	/**
-	 * Password protect my account page
-	 * action pre_get_posts
-	 */
-	function password_protect_myaccount() {
-		$page = get_option('cgcl_myaccount_page');
-		
-		if(is_page($page) && !is_user_logged_in()) {
-			/* Redirect to the login page */
-			wp_redirect('/hsse-login/');
-			exit();
-		}
-	}
 
 	/**
 	 * Password protect course single posts
@@ -227,7 +192,7 @@ class Cgcl_Settings_Public {
 		ob_start();
 		?>
 		<ul class="hsse-user-details">
-		<?php foreach($usermeta as $key => $data) : ?>
+		<?php foreach($usermeta as $key => $data) : if(!empty($key[$data])) ?>
 			<li><?php echo '<strong>' . $key .'</strong>' . ': ' .  $data; ?></li>
 		<?php endforeach; ?>
 		</ul>
