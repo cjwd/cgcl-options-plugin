@@ -159,6 +159,31 @@ class Cgcl_Settings_Public {
 		}
 	}
 
+	function quiz_score_shortcode() {
+		$pass_mark = get_option('cg_hsse_pass_mark', 85);
+		
+		if(intval($_GET['score']) < $pass_mark) {
+			$class = "ff-quiz-score fail";
+		} else {
+			$class = "ff-quiz-score";
+		}
+
+		return '<span class="' . $class .'">' . $_GET['score'] . '</span>';
+	}
+
+	/**
+	 * Filter to redirect a user to a specific page after logout.
+	 * @return [URL] logout URL with page slug on which it will be redirected after logout
+	 */
+	function loginpress_login_menu_logout_redirect() {
+		return wp_logout_url( '/hsse/hsse-orientation/' );
+	}
+
+	function remove_duplicate_user_status_columns($column_headers) {
+		unset($column_headers['ur_user_user_status']);
+		return $column_headers;
+	}
+
 	/**
 	 * Shortcode for displaying user meta data
 	 */

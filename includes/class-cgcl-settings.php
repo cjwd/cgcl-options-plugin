@@ -169,6 +169,10 @@ class Cgcl_Settings {
 		
 		$this->loader->add_action('edit_user_profile_update', $plugin_admin, 'save_custom_user_fields_data');
 
+		$this->loader->add_filter('manage_users_columns', $plugin_admin, 'remove_duplicate_user_status_columns');
+
+		$this->loader->add_filter( 'login_logout_menu_logout', $plugin_admin,'loginpress_login_menu_logout_redirect' );
+
 	}
 
 	/**
@@ -186,6 +190,8 @@ class Cgcl_Settings {
 		//$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
 		$this->loader->add_action('template_redirect', $plugin_public, 'restrict_hsse_pages');
+
+		$this->loader->add_shortcode('cgcl_quiz_score', $plugin_public, 'quiz_score_shortcode');
 
 		$this->loader->add_shortcode('cgcl_usermeta', $plugin_public, 'cgcl_usermeta_shortcode');
 
