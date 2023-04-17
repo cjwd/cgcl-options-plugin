@@ -299,6 +299,14 @@ class Cgcl_Settings_Admin {
 	}
 
 	/**
+	 * Remove custom admin columns added by User Regisration plugin
+	 */
+	function remove_duplicate_user_status_columns($column_headers) {
+		unset($column_headers['ur_user_user_status']);
+		return $column_headers;
+	}
+
+	/**
 	 * Display custom user fields on user profle page
 	 */
 	function display_custom_user_fields($user) {

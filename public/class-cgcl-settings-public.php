@@ -179,11 +179,6 @@ class Cgcl_Settings_Public {
 		return wp_logout_url( '/hsse/hsse-orientation/' );
 	}
 
-	function remove_duplicate_user_status_columns($column_headers) {
-		unset($column_headers['ur_user_user_status']);
-		return $column_headers;
-	}
-
 	/**
 	 * Shortcode for displaying user meta data
 	 */

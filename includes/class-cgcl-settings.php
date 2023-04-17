@@ -171,8 +171,6 @@ class Cgcl_Settings {
 
 		$this->loader->add_filter('manage_users_columns', $plugin_admin, 'remove_duplicate_user_status_columns');
 
-		$this->loader->add_filter( 'login_logout_menu_logout', $plugin_admin,'loginpress_login_menu_logout_redirect' );
-
 	}
 
 	/**
@@ -196,6 +194,8 @@ class Cgcl_Settings {
 		$this->loader->add_shortcode('cgcl_usermeta', $plugin_public, 'cgcl_usermeta_shortcode');
 
 		$this->loader->add_shortcode( 'cgcl_print_btn', $plugin_public, 'print_btn_shortcode' );
+
+		$this->loader->add_filter( 'login_logout_menu_logout', $plugin_public,'loginpress_login_menu_logout_redirect' );
 
 
 	}
