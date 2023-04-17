@@ -147,7 +147,7 @@ class Cgcl_Settings {
 	 * Register all of the hooks related to the admin area functionality
 	 * of the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    2.0.2
 	 * @access   private
 	 */
 	private function define_admin_hooks() {
@@ -177,7 +177,7 @@ class Cgcl_Settings {
 	 * Register all of the hooks related to the public-facing functionality
 	 * of the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    2.0.2
 	 * @access   private
 	 */
 	private function define_public_hooks() {
