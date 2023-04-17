@@ -161,6 +161,10 @@ class Cgcl_Settings_Public {
 
 	function quiz_score_shortcode() {
 		$pass_mark = get_option('cg_hsse_pass_mark', 85);
+
+		if(empty($_GET['score'])) {
+			return '<span style="display: inherit; font-weight: bold; text-align: center; color: red;">No score available.</span>';
+		}
 		
 		if(intval($_GET['score']) < $pass_mark) {
 			$class = "ff-quiz-score fail";
