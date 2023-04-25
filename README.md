@@ -1,7 +1,7 @@
 # CGCL Settings
 
-Version: 2.0.2
-Last Updated: April 16th, 2023
+Version: 2.0.3
+Last Updated: April 24th, 2023
 
 ## Description
 
