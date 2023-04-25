@@ -77,3 +77,9 @@ Filters the User’ Registration’s `manage_users_columns`  function to remove
 ### Fixed
 
 -   Fixed wrong placement of functions
+
+## 2.0.3 April 24th, 2023
+
+### Change
+
+-   Set `$_GET['score]` to a variable

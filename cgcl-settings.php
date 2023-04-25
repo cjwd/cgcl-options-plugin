@@ -9,14 +9,14 @@
  * that starts the plugin.
  *
  * @link              https://chinarajames.com
- * @since             2.0.2
+ * @since             2.0.3
  * @package           Cgcl_Settings
  *
  * @wordpress-plugin
  * Plugin Name:       CGCL Settings
  * Plugin URI:        https://chinarajames.com
  * Description:       Custom settings to add functionality to CGCL's website
- * Version:           2.0.2
+ * Version:           2.0.3
  * Author:            Chinara James
  * Author URI:        https://chinarajames.com
  * License:           GPL-2.0+
@@ -33,7 +33,7 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Current plugin version.
  */
-define( 'CGCL_SETTINGS_VERSION', '2.0.2' );
+define( 'CGCL_SETTINGS_VERSION', '2.0.3' );
 
 /**
  * The code that runs during plugin activation.
